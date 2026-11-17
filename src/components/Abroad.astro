@@ -1,0 +1,61 @@
+---
+import FutureLink from "./FutureLink.astro";
+import Icon from "./Icon.astro";
+import { FUTURE, messengers } from "../data/clinic";
+// B-005 (онлайн-консультація 750 грн), B-015 (план до приїзду, квитки, трансфер, житло, Карпати)
+const steps = [
+  { title: "Онлайн-консультація", text: "Перший крок, без поїздки.", price: "750 грн" },
+  { title: "План лікування до приїзду", text: "Ви знаєте план ще вдома." },
+  { title: "Квитки, трансфер і житло", text: "Консьєрж-сервіс допомагає з дорогою і проживанням." },
+  { title: "Лікування й Карпати", text: "Екскурсії Карпатами поруч із лікуванням." },
+];
+const order = ["telegram", "whatsapp", "viber"];
+const list = order.map((id) => messengers.find((m) => m.id === id)!);
+---
+<section id="abroad" class="section on-field abroad" aria-labelledby="abroad-title">
+  <div class="container abroad__grid">
+    <div class="abroad__head">
+      <h2 id="abroad-title">Лікування <span class="nobr">з-за кордону</span></h2>
+      <p>Для пацієнтів з інших країн і українців за кордоном. Почніть з повідомлення в месенджер.</p>
+      <ul class="abroad__msg">
+        {list.map((m) => <li><a class="btn btn--quiet" href={m.href} rel="noopener"><Icon name={m.id} />{m.label}</a></li>)}
+      </ul>
+      <p><FutureLink note={FUTURE}>Детальніше про лікування з-за кордону</FutureLink></p>
+    </div>
+    <ol class="steps">
+      {steps.map((s, i) => (
+        <li class="step" data-reveal style={`--reveal-delay:${i * 40}ms`}>
+          <span class="step__n num" aria-hidden="true">{i + 1}</span>
+          <div class="step__body">
+            <h3 class="step__title">{s.title}</h3>
+            {s.price && <p class="step__price num">{s.price}</p>}
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .nobr { white-space: nowrap; }
+  .abroad__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-6) var(--gap); }
+  .abroad__head { grid-column: 1 / span 5; display: grid; gap: var(--s-5); align-content: start; }
+  .abroad__head > p:first-of-type { color: var(--color-on-field-muted); font-size: var(--fs-lead); }
+  .abroad__msg { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .steps { grid-column: 7 / span 6; list-style: none; }
+  .step { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: var(--s-4); padding: var(--s-5) 0; border-top: 1px solid var(--color-field-rule); }
+  .step:last-child { border-bottom: 1px solid var(--color-field-rule); }
+  .step__n { font: 300 var(--fs-h2)/1 var(--font-display); color: var(--color-accent); }
+  .step__body { display: grid; gap: var(--s-1); }
+  .step__title { font: 400 var(--fs-h3)/1.25 var(--font-display); color: var(--color-on-field); }
+  .step__price { font: 600 var(--fs-lead)/1.3 var(--font-display); color: var(--color-accent) !important; }
+  .step__body p { color: var(--color-on-field-muted); }
+  @media (max-width: 1023px) {
+    .abroad__head, .steps { grid-column: 1 / -1; }
+  }
+  @media (max-width: 599px) {
+    .abroad__msg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .abroad__msg :global(.btn) { width: 100%; padding: 0 var(--s-2); min-height: var(--tap-key); font-size: var(--fs-xs); gap: var(--s-1); }
+  }
+</style>

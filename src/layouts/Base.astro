@@ -1,0 +1,42 @@
+---
+import "../styles/tokens.css";
+import "../styles/fonts.css";
+import "../styles/global.css";
+import geologicaCyr from "../assets/fonts/geologica-cyrillic-wght-normal.woff2?url";
+
+interface Props { lang: string; title: string; description: string; canonical?: string; rec?: string }
+const { lang, title, description, canonical, rec } = Astro.props;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add("js")</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#0D3B39" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preload" href={geologicaCyr} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+  <body id="top" data-rec={rec}>
+    <a class="skip-link" href="#main">{lang.startsWith("uk") ? "До змісту" : "Skip to content"}</a>
+    <slot name="header" />
+    <main id="main"><slot /></main>
+    <slot name="footer" />
+    <script src="../scripts/reveal.ts"></script>
+    <script src="../scripts/ui.ts"></script>
+  </body>
+</html>
+
+<style is:global>
+  /* repeated here so the layout reads as clipped on its own (Floor 4); the base rules live in global.css */
+  html, body { overflow-x: clip; }
+</style>

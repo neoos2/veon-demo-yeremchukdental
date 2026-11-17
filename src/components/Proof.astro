@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import medal from "../assets/medal.webp";
+// B-009 (Google 4,8 / 602), B-008 («Вибір країни 2024»), B-001 (з березня 2019)
+const googleMap = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent("Yeremchuk Dental Івано-Франківськ");
+---
+<section id="proof" class="section proof" data-rec="UX-R005,GA-R005" aria-labelledby="proof-title">
+  <div class="container proof__grid">
+    <div class="rating">
+      <h2 id="proof-title" class="visually-hidden">Оцінка пацієнтів і нагорода</h2>
+      <p class="rating__figure num" aria-hidden="true">4,8</p>
+      <div class="rating__text">
+        <p class="rating__line">Оцінка <span class="num">4,8</span> з 5 у Google, <span class="num">602</span> відгуки</p>
+        <p class="rating__src">Профіль клініки в Івано-Франківську, перевірено в листопаді 2026 року.</p>
+        <a class="link" href={googleMap} rel="noopener">Профіль на Google Картах</a>
+      </div>
+    </div>
+    <div class="award">
+      <Image src={medal} alt="Медаль «Вибір країни 2024»: стоматологія року в м. Івано-Франківськ" width={240} height={240} densities={[1, 2]} loading="lazy" class="award__img" />
+      <div class="award__text">
+        <h3>«Вибір країни 2024»</h3>
+        <p>Краща стоматологія м. Івано-Франківськ за версією аналітичного центру «Вибір країни».</p>
+      </div>
+      <p class="award__since">Працюємо з березня 2019 року.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #proof { scroll-margin-top: calc(var(--header-h) + var(--s-5) - var(--section-y)); }
+  .proof__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-7) var(--gap); align-items: center; }
+  .rating { grid-column: 1 / span 7; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-6); align-items: center; }
+  .rating__figure { font: 600 var(--fs-figure)/0.85 var(--font-display); letter-spacing: -0.05em; color: var(--color-field); }
+  .rating__text { display: grid; gap: var(--s-3); justify-items: start; }
+  .rating__line { font: 300 var(--fs-h3)/1.25 var(--font-display); }
+  .rating__src { font-size: var(--fs-xs); color: var(--color-muted); }
+  .award { grid-column: 9 / span 4; display: grid; gap: var(--s-5); padding-left: var(--s-6); border-left: 1px solid var(--color-rule); }
+  .award :global(.award__img) { width: 160px; height: 160px; }
+  .award__text { display: grid; gap: var(--s-2); }
+  .award h3 { font: 300 var(--fs-h3)/1.2 var(--font-display); }
+  .award__text p { color: var(--color-muted); }
+  .award__since { padding-top: var(--s-4); border-top: 1px solid var(--color-rule); }
+  @media (max-width: 1023px) {
+    .rating, .award { grid-column: 1 / -1; }
+    .award { padding-left: 0; border-left: 0; padding-top: var(--s-6); border-top: 1px solid var(--color-rule); grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+    .award__since { grid-column: 1 / -1; }
+  }
+  @media (max-width: 599px) {
+    .rating { grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
+    .award { grid-template-columns: minmax(0, 1fr); }
+    .award :global(.award__img) { width: 128px; height: 128px; }
+  }
+</style>

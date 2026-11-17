@@ -1,0 +1,18 @@
+---
+// «Написати»: a native disclosure with the three real messengers. Works without JS; JS only closes it on Escape / outside click.
+import Icon from "./Icon.astro";
+import { messengers } from "../data/clinic";
+interface Props { class?: string; label?: string; variant?: "secondary" | "quiet" }
+const { class: cls, label = "Написати", variant = "secondary" } = Astro.props;
+---
+<details class:list={["reach", cls]} data-reach>
+  <summary class:list={["btn", `btn--${variant}`]}>
+    {label}
+    <Icon name="chevron" class="reach__chev" />
+  </summary>
+  <ul class="reach__list">
+    {messengers.map((m) => (
+      <li><a href={m.href} rel="noopener"><Icon name={m.id} />{m.label}</a></li>
+    ))}
+  </ul>
+</details>

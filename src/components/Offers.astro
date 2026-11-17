@@ -1,0 +1,42 @@
+---
+import CallButton from "./CallButton.astro";
+// B-006
+const offers = [
+  { title: "4 імпланти за ціною 3" },
+  { title: "−20% на лікування для військових" },
+];
+---
+<section id="offers" class="section offers" aria-labelledby="offers-title">
+  <div class="container">
+    <div class="offers__head">
+      <h2 id="offers-title">Діють дві акції</h2>
+      <p>Умови акцій уточнює адміністратор за телефоном.</p>
+    </div>
+    <ul class="strips">
+      {offers.map((o) => (
+        <li class="strip">
+          <h3 class="strip__title">{o.title}</h3>
+          <CallButton variant="secondary" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .offers { padding-top: 0; }
+  .offers > .container { border-top: 1px solid var(--color-rule); padding-top: var(--section-y); }
+  .offers__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--s-3) var(--s-6); margin-bottom: var(--s-6); }
+  .offers__head p { color: var(--color-muted); }
+  .strips { list-style: none; }
+  .strip {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--s-3) var(--s-6);
+    padding: var(--s-6) 0; border-top: 1px solid var(--color-text);
+  }
+  .strip:last-child { border-bottom: 1px solid var(--color-text); }
+  .strip__title { font: 300 var(--fs-display)/1.05 var(--font-display); letter-spacing: -0.02em; }
+  @media (max-width: 767px) {
+    .strip { grid-template-columns: minmax(0, 1fr); }
+    .strip :global(.btn) { width: 100%; }
+  }
+</style>

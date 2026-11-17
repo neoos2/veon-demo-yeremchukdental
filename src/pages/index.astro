@@ -1,0 +1,49 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Directions from "../components/Directions.astro";
+import Comfort from "../components/Comfort.astro";
+import Doctors from "../components/Doctors.astro";
+import Proof from "../components/Proof.astro";
+import Offers from "../components/Offers.astro";
+import Abroad from "../components/Abroad.astro";
+import Branches from "../components/Branches.astro";
+import Footer from "../components/Footer.astro";
+import ActionBar from "../components/ActionBar.astro";
+import { socials } from "../data/clinic";
+
+const title = "Yeremchuk Dental — стоматологія та імплантація, Івано-Франківськ і Чернівці";
+const description = "Імплантація від 21 600 грн, лікування уві сні та під мікроскопом, 11 лікарів. Дві клініки: Івано-Франківськ, Військова, 1 і Чернівці, Руська, 237.";
+
+const sameAs = [socials.instagramIf, socials.instagramCv, socials.facebook, socials.youtube].map((s) => s.href);
+const ld = {
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "#org", name: "Yeremchuk Dental", foundingDate: "2019-03", sameAs },
+    {
+      "@type": "Dentist", name: "Yeremchuk Dental, Івано-Франківськ", parentOrganization: { "@id": "#org" }, telephone: "+380990016106",
+      address: { "@type": "PostalAddress", streetAddress: "вул. Військова, 1", addressLocality: "Івано-Франківськ", addressCountry: "UA" },
+      openingHours: "Mo-Sa 08:00-20:00",
+    },
+    {
+      "@type": "Dentist", name: "Yeremchuk Dental, Чернівці", parentOrganization: { "@id": "#org" }, telephone: "+380990016106",
+      address: { "@type": "PostalAddress", streetAddress: "вул. Руська, 237", addressLocality: "Чернівці", addressCountry: "UA" },
+    },
+  ],
+};
+---
+<Base lang="uk" title={title} description={description} rec="SP-R002,SP-R005,SP-R008,UX-R009,GA-R004">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(ld)} />
+  <Header slot="header" />
+  <Hero />
+  <Directions />
+  <Comfort />
+  <Doctors />
+  <Proof />
+  <Offers />
+  <Abroad />
+  <Branches />
+  <Footer slot="footer" />
+  <ActionBar slot="footer" />
+</Base>

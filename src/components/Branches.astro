@@ -1,0 +1,68 @@
+---
+import CallButton from "./CallButton.astro";
+import Icon from "./Icon.astro";
+import { branches, phone, messengers } from "../data/clinic";
+---
+<section id="branches" class="section branches" data-rec="UX-R004,GA-R001" aria-labelledby="branches-title">
+  <div class="container">
+    <div class="section-head">
+      <h2 id="branches-title">Дві клініки</h2>
+      <p>Один номер для запису в обидва міста.</p>
+    </div>
+    <div class="branch-grid">
+      {branches.map((b) => (
+        <article class="branch" id={b.id} aria-labelledby={`${b.id}-t`}>
+          <h3 class="branch__city" id={`${b.id}-t`}>{b.city}</h3>
+          <dl class="branch__facts">
+            <div><dt>Адреса</dt><dd>{b.address}</dd></div>
+            <div><dt>Графік</dt><dd class:list={[{ "branch__hours--unknown": !b.hoursKnown }]}>{b.hours}</dd></div>
+            <div><dt>Телефон</dt><dd><a class="link num" href={phone.href}>{phone.label}</a></dd></div>
+          </dl>
+          <div class="branch__actions">
+            <CallButton />
+            <a class="btn btn--secondary" href={b.map} rel="noopener"><Icon name="pin" />Відкрити на карті</a>
+          </div>
+          <ul class="branch__links">
+            <li><a class="btn btn--quiet" href={b.instagram.href} rel="noopener"><Icon name="instagram" />{b.instagram.label}<span class="visually-hidden"> філії {b.city}</span></a></li>
+          </ul>
+        </article>
+      ))}
+    </div>
+    <div class="write">
+      <p class="write__label">Написати в обидві клініки</p>
+      <ul class="write__list">
+        {messengers.map((m) => <li><a class="btn btn--quiet" href={m.href} rel="noopener"><Icon name={m.id} />{m.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .branch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--color-text); }
+  .branch { display: grid; gap: var(--s-5); align-content: start; padding: var(--s-6) var(--s-6) var(--s-6) 0; }
+  .branch + .branch { padding: var(--s-6) 0 var(--s-6) var(--s-6); border-left: 1px solid var(--color-rule); }
+  .branch__city { font: 300 var(--fs-city)/1.05 var(--font-display); letter-spacing: -0.02em; }
+  .branch__facts { margin: 0; display: grid; gap: var(--s-3); }
+  .branch__facts div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s-4); padding-bottom: var(--s-3); border-bottom: 1px solid var(--color-rule); }
+  .branch__facts dt { color: var(--color-muted); font-size: var(--fs-xs); padding-top: 0.2em; }
+  .branch__facts dd { margin: 0; font-size: var(--fs-lead); }
+  .branch__hours--unknown { color: var(--color-muted); }
+  .branch__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
+  .branch__links { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .write { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3) var(--s-5); padding-top: var(--s-5); border-top: 1px solid var(--color-text); }
+  .write__label { color: var(--color-muted); }
+  .write__list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  @media (max-width: 899px) {
+    .branch-grid { grid-template-columns: minmax(0, 1fr); }
+    .branch, .branch + .branch { padding: var(--s-6) 0; border-left: 0; }
+    .branch + .branch { border-top: 1px solid var(--color-text); }
+  }
+  @media (max-width: 599px) {
+    .branch__facts div { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .branch__actions { display: grid; }
+    .branch__actions :global(.btn) { width: 100%; }
+    .branch__links :global(.btn) { width: 100%; }
+    .write__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+    .write__list :global(.btn) { width: 100%; padding: 0 var(--s-2); min-height: var(--tap-key); font-size: var(--fs-xs); gap: var(--s-1); }
+  }
+</style>

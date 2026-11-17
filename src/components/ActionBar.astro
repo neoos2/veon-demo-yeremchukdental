@@ -1,0 +1,29 @@
+---
+// Phone-only bottom bar: «Записатися» + Viber + Telegram. Space is reserved under the page, nothing is covered.
+import Icon from "./Icon.astro";
+import { phone, messengers } from "../data/clinic";
+const quick = messengers.filter((m) => m.id !== "whatsapp");
+---
+<div class="action-bar" data-action-bar data-rec="UX-R008">
+  <a class="btn btn--primary action-bar__call" href={phone.href}>Записатися<span class="visually-hidden"> за телефоном {phone.label}</span></a>
+  {quick.map((m) => <a class="action-bar__icon" href={m.href} rel="noopener" aria-label={m.label} title={m.label}><Icon name={m.id} size={24} /></a>)}
+</div>
+
+<style>
+  .action-bar { display: none; }
+  @media (max-width: 767px) {
+    :global(body) { padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom)); }
+    .action-bar {
+      position: fixed; z-index: 45; left: 0; right: 0; bottom: 0;
+      display: grid; grid-template-columns: minmax(0, 1fr) var(--tap-key) var(--tap-key); gap: var(--s-2);
+      padding: var(--s-2) var(--space) calc(var(--s-2) + env(safe-area-inset-bottom));
+      background: var(--color-bg); border-top: 1px solid var(--color-rule);
+      transition: transform 300ms var(--ease-out), visibility 0s linear 0s;
+    }
+    .action-bar.is-armed:not(.is-shown) { transform: translateY(110%); visibility: hidden; transition: transform 300ms var(--ease-out), visibility 0s linear 300ms; }
+    .action-bar__call { min-height: 48px; }
+    .action-bar__icon { display: grid; place-items: center; min-height: 48px; border: 1.5px solid var(--color-rule); border-radius: var(--radius); color: var(--color-link); transition: border-color var(--dur-fast) var(--ease-out); }
+    .action-bar__icon:hover { border-color: var(--color-link); }
+    :global(html.menu-open) .action-bar { transform: translateY(110%); visibility: hidden; }
+  }
+</style>

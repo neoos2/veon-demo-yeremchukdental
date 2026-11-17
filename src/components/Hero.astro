@@ -1,0 +1,95 @@
+---
+import CallButton from "./CallButton.astro";
+import Reach from "./Reach.astro";
+import Icon from "./Icon.astro";
+import { branches } from "../data/clinic";
+---
+<section id="hero" class="hero on-field" data-rec="UX-R001,UX-R003,UX-R007,SP-R001,GA-R001,MA-R002" aria-label="Перший екран">
+  <div class="container hero__inner">
+    <div class="hero__lead">
+      <h1 data-rec="UX-R012">Стоматологія та імплантація <span class="hero__br">в Івано-Франківську і Чернівцях</span></h1>
+      <p class="hero__text" data-enter style="--enter-delay:0ms">Клініку заснував хірург-імплантолог Володимир Єремчук. Лікуємо під мікроскопом і уві сні.</p>
+      <div class="hero__actions" data-enter style="--enter-delay:60ms">
+        <CallButton />
+        <Reach />
+      </div>
+      <p class="hero__rating" data-enter style="--enter-delay:120ms">
+        <a class="link" href="#proof"><span class="num">4,8</span> у Google, <span class="num">602</span> відгуки</a>
+      </p>
+    </div>
+
+    <nav class="cities" aria-label="Філії">
+      {branches.map((b, i) => (
+        <a class="city" href={`#${b.id}`} data-enter style={`--enter-delay:${180 + i * 60}ms`}>
+          <span class="city__name">{b.city}</span>
+          <span class="city__meta">{b.address}<br />{b.hours}</span>
+          <Icon name="arrow" size={28} class="city__arrow" />
+        </a>
+      ))}
+    </nav>
+  </div>
+</section>
+
+<style>
+  .hero { padding-block: clamp(2.5rem, 1.5rem + 4vw, 5.5rem) 0; min-height: calc(88svh - var(--header-h)); display: flex; }
+  .hero__inner { display: flex; flex-direction: column; justify-content: space-between; gap: clamp(2.5rem, 1rem + 4vw, 5rem); }
+  .hero__lead { display: grid; gap: var(--s-5); }
+  h1 { text-wrap: balance; font-size: var(--fs-display); line-height: var(--lh-tight); letter-spacing: -0.02em; color: var(--color-on-field); }
+  .hero__br { display: block; }
+  @media (min-width: 1100px) { .hero__br { white-space: nowrap; } }
+  .hero__text { font-size: var(--fs-lead); color: var(--color-on-field-muted); max-width: 36rem; }
+  .hero__actions { position: relative; z-index: 5; display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-2); }
+  .hero__actions :global(.btn) { min-width: 11.5rem; }
+  .hero__rating { font-size: var(--fs-body); }
+  .hero__rating .link { text-decoration-color: var(--color-field-rule); }
+
+  .cities {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--color-field-rule);
+  }
+  .city {
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end;
+    column-gap: var(--s-4); row-gap: var(--s-2);
+    padding: var(--s-6) var(--s-5) clamp(2rem, 1rem + 2.5vw, 3.5rem) 0;
+    text-decoration: none; color: var(--color-on-field);
+  }
+  .city + .city { padding-left: var(--s-6); border-left: 1px solid var(--color-field-rule); }
+  .city__name {
+    grid-column: 1; font: 300 var(--fs-city)/1.05 var(--font-display); letter-spacing: -0.02em;
+    overflow-wrap: break-word; min-width: 0;
+    position: relative; padding-bottom: var(--s-1); justify-self: start;
+  }
+  @media (min-width: 1024px) { .city__name { white-space: nowrap; } }
+  .city__name::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    background: var(--color-accent); transform: scaleX(0); transform-origin: left;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .city__meta { grid-column: 1; font-size: var(--fs-body); color: var(--color-on-field-muted); line-height: 1.5; }
+  :global(.city__arrow) { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--color-accent); transition: transform var(--dur-fast) var(--ease-out); }
+  .city:hover :global(.city__arrow), .city:focus-visible :global(.city__arrow) { transform: translateX(4px); }
+  .city:hover .city__name::after, .city:focus-visible .city__name::after { transform: scaleX(1); }
+  .city:active :global(.city__arrow) { transform: translateX(2px); transition-duration: var(--dur-press); }
+
+  /* entrance: text, actions and cities rise once; the H1 never waits */
+  :global(.js) [data-enter] { animation: hero-enter var(--dur-enter) var(--ease-out) both; animation-delay: var(--enter-delay, 0ms); }
+  @keyframes hero-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 767px) {
+    .hero { min-height: 0; padding-top: var(--s-6); }
+    .hero__inner { gap: var(--s-6); }
+    .hero__actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .hero__actions :global(.btn) { width: 100%; }
+    .hero__actions :global(.reach__list) { left: 0; right: 0; }
+
+    :global(.js) .city[data-enter] { animation-delay: 120ms; }
+  }
+  @media (max-width: 1023px) {
+    .cities { grid-template-columns: minmax(0, 1fr); }
+    .city, .city + .city { padding: var(--s-5) 0; border-left: 0; min-height: var(--tap-key); }
+    .city + .city { border-top: 1px solid var(--color-field-rule); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) [data-enter] { animation: none; }
+  }
+</style>

@@ -1,0 +1,78 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import FutureLink from "./FutureLink.astro";
+import CallButton from "./CallButton.astro";
+import { FUTURE, founder, doctors } from "../data/clinic";
+
+const photos = import.meta.glob<{ default: ImageMetadata }>("../assets/doctors/*.webp", { eager: true });
+const photo = (id: string) => photos[`../assets/doctors/${id}.webp`].default;
+---
+<section id="doctors" class="section on-sand doctors" data-rec="UX-R005,SP-R006" aria-labelledby="doctors-title">
+  <div class="container">
+    <div class="founder">
+      <div class="founder__text">
+        <h2 id="doctors-title">Одинадцять лікарів, від імплантолога до дитячого стоматолога</h2>
+        <p class="founder__lead">Хірурги-імплантологи, ортодонти, терапевти, ортопеди і дитячі стоматологи.</p>
+        <div class="founder__card">
+          <h3 class="founder__name">{founder.name}</h3>
+          <p class="founder__role">{founder.role}. Заснував клініку в березні 2019 року.</p>
+        </div>
+        <div class="founder__action">
+          <p>Консультація головного лікаря <span class="num founder__price">1 250 грн</span></p>
+          <CallButton variant="secondary" label="Записатися на консультацію" />
+        </div>
+      </div>
+      <div class="founder__photo" data-reveal>
+        <Picture src={photo(founder.photo)} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[360, 520, 720, 880]} sizes="(min-width: 1024px) 34vw, 90vw" width={880} height={1100} alt={`${founder.name}, головний лікар Yeremchuk Dental`} loading="lazy" quality={72} class="petal" />
+      </div>
+    </div>
+
+    <ul class="team" aria-label="Команда лікарів">
+      {doctors.map((d, i) => (
+        <li class="doc" data-reveal style={`--reveal-delay:${(i % 5) * 40}ms`}>
+          <Picture src={photo(d.photo)} formats={["avif", "webp"]} fallbackFormat="jpg" widths={[240, 360, 480]} sizes="(min-width: 1024px) 220px, (min-width: 600px) 30vw, 45vw" width={480} height={600} alt={d.name} loading="lazy" quality={72} class="petal" />
+          <h3 class="doc__name">{d.name}</h3>
+          <p class="doc__role">{d.role}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="team__more"><FutureLink note={FUTURE}>Профілі лікарів</FutureLink></p>
+  </div>
+</section>
+
+<style>
+  .founder { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-6) var(--gap); align-items: end; }
+  .founder__photo { grid-column: 1 / span 5; grid-row: 1; }
+  .founder__text { grid-column: 7 / span 6; grid-row: 1; display: grid; gap: var(--s-5); padding-bottom: var(--s-4); }
+  .founder__lead { font-size: var(--fs-lead); color: var(--color-muted); max-width: 32rem; }
+  .founder__card { padding-top: var(--s-5); border-top: 1px solid var(--color-text); }
+  .founder__name { font: 300 var(--fs-h2)/1.1 var(--font-display); letter-spacing: -0.015em; }
+  .founder__role { margin-top: var(--s-2); color: var(--color-muted); }
+  .founder__action { display: flex; flex-wrap: wrap; gap: var(--s-4); align-items: center; }
+  .founder__price { font: 600 var(--fs-lead)/1 var(--font-display); color: var(--color-link); margin-left: var(--s-1); }
+
+  :global(.petal) { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 12%; border-radius: var(--radius-petal); background: var(--color-rule); }
+
+  .team {
+    list-style: none; margin-top: clamp(3rem, 2rem + 3vw, 5rem);
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-6) var(--gap);
+  }
+  .doc { display: grid; gap: var(--s-1); align-content: start; }
+  .doc :global(picture) { margin-bottom: var(--s-3); display: block; }
+  .doc__name { font: 600 var(--fs-body)/1.3 var(--font-body); }
+  .doc__role { font-size: var(--fs-xs); color: var(--color-muted); }
+  .team__more { margin-top: var(--s-6); }
+
+  @media (max-width: 1023px) {
+    .founder__photo { grid-column: 1 / span 6; }
+    .founder__text { grid-column: 7 / span 6; }
+    .team { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 767px) {
+    .founder__photo, .founder__text { grid-column: 1 / -1; grid-row: auto; }
+    .founder__photo { max-width: 26rem; }
+    .founder__action :global(.btn) { width: 100%; }
+    .team { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-5) var(--s-4); }
+  }
+</style>

@@ -1,0 +1,71 @@
+/* Hallmark · shape: custom · genre: custom · theme: custom · job: book · idea: "Фірмова бірюза лотоса стає глибокою тихою водою, у якій великим і ясним шрифтом стоять тільки факти: ціна, лікар, місто" · vibe: "спокійно, глибоко, відкрито, точно"
+ * paper: #F2F6F5 + field #0D3B39 · accent: #2DBBB5 · display: Geologica · body: Commissioner · hero: глибоке поле, H1 з послугою і містами, одна дія, дві назви міст великим кеглем як перемикач філій · nav: світла смуга, 4 якорі + 2 FutureLink, номер текстом · footer: поле, лого на світлій плашці, контакти обох філій · imagery: client photos · signature: назви двох міст на глибокій бірюзі, що ведуть до своїх філій, і ті самі назви в кінці
+ * axes: light/geometric-sans/chromatic-teal · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: imagery (портрети зняті на різних фонах), тримаємо їх на одній пісочній підкладці й однаковому кадрі 4:5 з формою «пелюстка» */
+/* Hallmark · waive 77 · #offers: дві смуги на всю ширину, кожна з фразою акції кеглем --fs-display і дією «Записатися» · концепція §5 (offers: «дві широкі смуги-рядки, не картки»), ревю finish: «Акції як дві великі набрані фрази — не переробляти» */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+:root {
+  /* Palette (concept §5 Look) */
+  --color-bg: #F2F6F5;            /* paper */
+  --color-text: #243141;          /* ink: напис логотипа */
+  --color-accent: #2DBBB5;        /* фірмова бірюза: головна дія, фокус на полі */
+  --color-field: #0D3B39;         /* глибоке поле */
+  --color-accent-ink: var(--color-text); /* текст на бірюзовій заливці, 5.6:1 */
+  --color-link: #0F6E69;          /* посилання, ціни, фокус на світлому */
+  --color-sand: #E7E1D6;          /* підкладка портретів */
+  --color-muted: #4F5D66;
+  --color-rule: #CBD8D6;
+  --color-on-field: #E8F3F1;
+  --color-on-field-muted: #A9C9C5;
+  --color-field-rule: color-mix(in srgb, var(--color-on-field) 22%, var(--color-field));
+  --color-field-raised: color-mix(in srgb, var(--color-on-field) 8%, var(--color-field));
+  --color-accent-hover: color-mix(in srgb, var(--color-accent) 82%, var(--color-on-field));
+  --color-link-hover: color-mix(in srgb, var(--color-link) 82%, var(--color-text));
+  --color-scrim: color-mix(in srgb, var(--color-text) 6%, transparent);
+
+  /* Type */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Commissioner", system-ui, sans-serif;
+  --fs-xs: 0.875rem;                                   /* 14 */
+  --fs-body: 1.0625rem;                                /* 17 */
+  --fs-lead: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem); /* 18–21 */
+  --fs-h3: clamp(1.375rem, 1.1rem + 0.8vw, 1.75rem);   /* 22–28 */
+  --fs-h2: clamp(2rem, 1.5rem + 1.4vw, 2.5rem);        /* 32–40 */
+  --fs-display: clamp(2.125rem, 2.4vw + 1.25rem, 3.5rem);/* H1 */
+  --fs-city: clamp(2.25rem, 4.5vw, 4.125rem);    /* міста: головний предмет першого екрана */
+  --fs-figure: clamp(6rem, 16vw, 13rem);               /* одне графічне число */
+  --lh-tight: 1.06;
+  --lh-head: 1.15;
+  --lh-body: 1.6;
+
+  /* Space: 4 / 8 / 12 / 16 / 24 / 40 / 64 / 96 / 144 */
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2.5rem;
+  --s-7: 4rem;
+  --s-8: 6rem;
+  --s-9: 9rem;
+  --section-y: clamp(4rem, 2.5rem + 5vw, 8.5rem);
+  --space: clamp(1.25rem, 5vw, 5rem);  /* поля контейнера */
+  --gap: 1.5rem;
+  --container: 1240px;
+
+  /* Shape */
+  --radius: 8px;
+  --radius-petal: 40px 4px 40px 4px;
+  --tap: 44px;
+  --tap-key: 56px;
+  --btn-h: 52px;
+  --header-h: 72px;
+  --bar-h: 64px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur-press: 120ms;
+  --dur-fast: 220ms;
+  --dur: 480ms;
+  --dur-enter: 600ms;
+}

@@ -1,0 +1,7 @@
+---
+// The one action of the page: «Записатися» = a phone call (no online booking in the client data).
+import { phone } from "../data/clinic";
+interface Props { class?: string; variant?: "primary" | "secondary" | "quiet"; label?: string }
+const { class: cls, variant = "primary", label = "Записатися" } = Astro.props;
+---
+<a class:list={["btn", `btn--${variant}`, cls]} href={phone.href}>{label}<span class="visually-hidden"> за телефоном {phone.label}</span></a>

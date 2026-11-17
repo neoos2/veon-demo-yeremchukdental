@@ -1,0 +1,116 @@
+/* Base: reset, accessibility, typography, shared controls. Colours and fonts only through tokens.css. */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+img, video, svg { display: block; max-width: 100%; height: auto; }
+h1, h2, h3 { margin: 0; overflow-wrap: break-word; min-width: 0; text-wrap: balance; hyphens: auto; }
+h1, h2 { font-family: var(--font-display); font-weight: 300; line-height: var(--lh-head); letter-spacing: -0.015em; }
+h2 { font-size: var(--fs-h2); }
+h3 { font-family: var(--font-body); font-weight: 600; font-size: var(--fs-lead); line-height: 1.3; }
+p { margin: 0; text-wrap: pretty; }
+ul, ol { margin: 0; padding: 0; }
+a { color: inherit; }
+::selection { background: var(--color-accent); color: var(--color-text); }
+html { scrollbar-color: var(--color-muted) var(--color-bg); }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Focus: 2px ring, 2px offset; accent-ink on light grounds, accent on the field. Instant. */
+:focus-visible { outline: 2px solid var(--color-link); outline-offset: 2px; }
+.on-field :focus-visible { outline-color: var(--color-accent); }
+
+.skip-link { position: absolute; left: var(--s-4); top: -100px; z-index: 100; padding: var(--s-3) var(--s-4); background: var(--color-text); color: var(--color-bg); border-radius: var(--radius); }
+.skip-link:focus { top: var(--s-4); }
+.container { width: min(100% - 2 * var(--space), var(--container)); margin-inline: auto; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Grounds: the change of ground opens a section */
+.section { padding-block: var(--section-y); }
+.on-field { background: var(--color-field); color: var(--color-on-field); }
+.on-sand { background: var(--color-sand); }
+.section-head { display: grid; gap: var(--s-4); max-width: 46rem; margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
+.section-head p { color: var(--color-muted); font-size: var(--fs-lead); }
+.on-field .section-head p { color: var(--color-on-field-muted); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  min-height: var(--btn-h); padding: 0 var(--s-5);
+  border-radius: var(--radius); border: 1.5px solid transparent;
+  font: 600 var(--fs-body)/1 var(--font-body); text-decoration: none; cursor: pointer; white-space: nowrap;
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-press) var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--color-accent); color: var(--color-accent-ink); }
+.btn--primary:hover { background: var(--color-accent-hover); }
+.btn--secondary { background: transparent; color: currentColor; border-color: currentColor; }
+.btn--secondary:hover { background: var(--color-scrim); }
+.on-field .btn--secondary:hover { background: var(--color-field-raised); }
+.btn--quiet { min-height: var(--tap); padding: 0 var(--s-4); background: transparent; color: var(--color-link); border-color: var(--color-rule); }
+.btn--quiet:hover { border-color: var(--color-link); }
+.on-field .btn--quiet { color: var(--color-on-field); border-color: var(--color-field-rule); }
+.on-field .btn--quiet:hover { border-color: var(--color-on-field-muted); background: var(--color-field-raised); }
+
+/* Text link */
+.link { color: var(--color-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; transition: color var(--dur-fast) var(--ease-out); }
+.link:hover { color: var(--color-text); }
+.on-field .link { color: var(--color-on-field); text-decoration-color: var(--color-accent); }
+.on-field .link:hover { color: var(--color-accent); }
+
+/* Messenger disclosure («Написати») */
+.reach { position: relative; }
+.reach > summary { list-style: none; }
+.reach > summary::-webkit-details-marker { display: none; }
+.reach__chev { transition: transform var(--dur-fast) var(--ease-out); }
+.reach[open] .reach__chev { transform: rotate(180deg); }
+.reach__list {
+  position: absolute; z-index: 30; top: calc(100% + var(--s-2)); left: 0; min-width: 15rem;
+  list-style: none; padding: var(--s-2); display: grid; gap: var(--s-1);
+  background: var(--color-bg); color: var(--color-text); border: 1px solid var(--color-rule); border-radius: var(--radius);
+}
+.reach[open] .reach__list { animation: reach-open var(--dur-fast) var(--ease-out); }
+.reach__list a { display: flex; align-items: center; gap: var(--s-3); min-height: var(--tap); padding: 0 var(--s-3); border-radius: calc(var(--radius) - 2px); text-decoration: none; font-weight: 600; transition: background-color var(--dur-fast) var(--ease-out); }
+.reach__list a:hover { background: var(--color-scrim); }
+.reach__list svg { width: 20px; height: 20px; color: var(--color-link); }
+@keyframes reach-open { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Reveal-on-scroll hook (src/scripts/reveal.ts). Hidden only once scripting runs (.js on <html>). */
+[data-reveal] { transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out); transition-delay: var(--reveal-delay, 0ms); }
+.js [data-reveal]:not(.is-visible) { opacity: 0; transform: translateY(12px); }
+@media (max-width: 767px) {
+  .js [data-reveal]:not(.is-visible) { transform: none; }
+  [data-reveal] { transition-delay: 0ms; }
+}
+/* Anchor targets stay visible under the sticky header. */
+[id] { scroll-margin-top: var(--header-h); }
+
+/* FutureLink: a page of the future site, not built yet. */
+.future-link { position: relative; display: inline-flex; align-items: center; cursor: default; color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 0.3em; text-decoration-color: var(--color-muted); }
+.on-field .future-link { text-decoration-color: var(--color-on-field-muted); }
+.future-link__note[aria-hidden="true"] {
+  position: absolute; left: 50%; top: calc(100% + var(--s-2)); transform: translate(-50%, -4px);
+  white-space: nowrap; padding: var(--s-2) var(--s-3);
+  font: 400 var(--fs-xs)/1.2 var(--font-body);
+  background: var(--color-text); color: var(--color-bg); border-radius: var(--radius);
+  opacity: 0; pointer-events: none; z-index: 40;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
+}
+.on-field .future-link__note[aria-hidden="true"] { background: var(--color-on-field); color: var(--color-field); }
+.future-link:hover .future-link__note, .future-link:focus .future-link__note, .future-link:focus-visible .future-link__note { opacity: 1; transform: translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+  .js [data-reveal]:not(.is-visible) { opacity: 1; transform: none; }
+}

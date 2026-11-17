@@ -1,0 +1,43 @@
+---
+// products_services[5], [6]; B-007 (дитячі лікарі); B-013 (девіз у логотипі)
+const ways = [
+  { title: "Уві сні", text: "Лікування зубів уві сні.", who: "Ірина Глинянчук, дитячий стоматолог, спеціалізується на лікуванні уві сні" },
+  { title: "Під мікроскопом", text: "Лікування зубів і каналів під мікроскопом.", who: "" },
+  { title: "Під наркозом, для дітей", text: "Дитяча стоматологія, зокрема лікування під наркозом.", who: "Дитячі стоматологи Марина Любинець та Ірина Глинянчук" },
+];
+---
+<section id="comfort" class="section on-field comfort" aria-labelledby="comfort-title">
+  <div class="container comfort__grid">
+    <div class="comfort__head">
+      <h2 id="comfort-title">Якщо страшно або боляче</h2>
+      <p>Девіз клініки стоїть просто в логотипі: безболісно, якісно, стерильно. Ось як лікують ті, кому важко сісти в крісло.</p>
+    </div>
+    <ol class="ways">
+      {ways.map((w) => (
+        <li class="way">
+          <h3 class="way__title">{w.title}</h3>
+          <p class="way__text">{w.text}</p>
+          {w.who && <p class="way__who">{w.who}</p>}
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .comfort__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--s-6) var(--gap); }
+  .comfort__head { grid-column: 1 / span 4; display: grid; gap: var(--s-4); align-content: start; }
+  .comfort__head p { color: var(--color-on-field-muted); font-size: var(--fs-lead); }
+  .ways { grid-column: 6 / span 7; list-style: none; }
+  .way { padding: var(--s-5) 0 var(--s-6); border-top: 1px solid var(--color-field-rule); display: grid; gap: var(--s-2); }
+  .way:last-child { border-bottom: 1px solid var(--color-field-rule); }
+  .way__title { font: 300 var(--fs-display)/1.05 var(--font-display); letter-spacing: -0.02em; color: var(--color-on-field); }
+  .way__text { font-size: var(--fs-lead); }
+  .way__who { color: var(--color-on-field-muted); font-size: var(--fs-body); }
+  @media (min-width: 1024px) {
+    .comfort__head { position: sticky; top: calc(var(--header-h) + var(--s-6)); align-self: start; }
+  }
+  @media (max-width: 1023px) {
+    .comfort__head, .ways { grid-column: 1 / -1; }
+  }
+</style>

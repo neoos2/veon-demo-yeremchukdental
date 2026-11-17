@@ -1,0 +1,30 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+import { phone, messengers } from "../data/clinic";
+---
+<Base lang="uk" title="Сторінку не знайдено — Yeremchuk Dental" description="Такої сторінки немає. Поверніться на головну Yeremchuk Dental або запишіться за телефоном.">
+  <section class="nf on-field">
+    <div class="container nf__inner">
+      <p class="nf__code num" aria-hidden="true">404</p>
+      <h1>Такої сторінки немає</h1>
+      <p class="nf__text">Можливо, адреса змінилася. Головна сторінка має все: напрями й ціни, лікарів і обидві клініки.</p>
+      <div class="nf__actions">
+        <a class="btn btn--primary" href="./">На головну</a>
+        <a class="btn btn--secondary" href={phone.href}>Записатися <span class="num">{phone.label}</span></a>
+      </div>
+      <ul class="nf__msg">
+        {messengers.map((m) => <li><a class="btn btn--quiet" href={m.href} rel="noopener"><Icon name={m.id} />{m.label}</a></li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 100svh; display: flex; align-items: center; padding-block: var(--s-8); }
+  .nf__inner { display: grid; gap: var(--s-5); justify-items: start; }
+  .nf__code { font: 600 var(--fs-figure)/0.85 var(--font-display); color: var(--color-accent); letter-spacing: -0.05em; }
+  h1 { text-wrap: balance; font-size: var(--fs-display); color: var(--color-on-field); }
+  .nf__text { font-size: var(--fs-lead); color: var(--color-on-field-muted); max-width: 36rem; }
+  .nf__actions, .nf__msg { display: flex; flex-wrap: wrap; gap: var(--s-3); list-style: none; }
+</style>
